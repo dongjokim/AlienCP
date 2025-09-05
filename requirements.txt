@@ -1,0 +1,9 @@
+# Requirements for AlienCP download script
+# This script uses only Python standard library modules
+# No additional Python packages are required
+
+# Note: This script requires ALICE software environment with alien_cp command
+# Please ensure you have:
+# 1. ALICE software properly installed
+# 2. alien_cp command available in your PATH
+# 3. Valid ALICE credentials configured
