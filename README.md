@@ -89,6 +89,18 @@ python download_file.py alien:///alice/data/2022/LHC22c/000123456/raw/run123456_
 
 ## download_from_list.py - Batch Downloads
 
+### Quick Start
+
+**Default usage (downloads to hyperloopOutputs/):**
+```bash
+python3 download_from_list.py -v
+```
+
+**Custom directory (e.g., your EOS directory for CERNBox sync):**
+```bash
+python3 download_from_list.py -d /eos/user/your_username/analysis_data -v
+```
+
 ### Setup
 
 Create a `downloadlist.txt` file with entries in the format:
@@ -102,13 +114,13 @@ CF_JetShape_NeNe_default_with_outliers LHC25af_pass1 /alice/cern.ch/user/a/alihy
 CF_JetShape_NeNe_xxx LHC25af_pass1 /alice/cern.ch/user/a/alihyperloop/outputs/0049/493316/145211
 ```
 
-### Basic Usage
+### Workflow
 
-Download all AnalysisResults.root files from downloadlist.txt to the default `hyperloopOutputs` directory:
-
-```bash
-python download_from_list.py
-```
+1. **Add new entries** to `downloadlist.txt` from your hyperloop emails
+2. **Run the script** with your preferred directory:
+   - **Default**: `python3 download_from_list.py -v` (downloads to hyperloopOutputs/)
+   - **EOS/CERNBox**: `python3 download_from_list.py -d /eos/user/your_username/analysis_data -v`
+3. **Files sync automatically** to CERNBox if using EOS directory
 
 ### Download to Custom Directory
 
@@ -170,17 +182,37 @@ python download_file.py alien:///alice/data/2022/LHC22c/000123456/raw/run123456_
 
 ```bash
 # Download all files from downloadlist.txt to hyperloopOutputs directory
-python download_from_list.py
+python3 download_from_list.py -v
 
-# Download with verbose output to see full commands
-python download_from_list.py -v
+# Download to your EOS directory (syncs to CERNBox automatically)
+python3 download_from_list.py -d /eos/user/your_username/analysis_data -v
 
-# Download to custom directory
-python download_from_list.py -d ./my_analysis_data
+# Download to custom local directory
+python3 download_from_list.py -d ./my_analysis_data -v
 
 # Use custom downloadlist file
-python download_from_list.py -f my_experiments.txt -d ./results -v
+python3 download_from_list.py -f my_experiments.txt -d ./results -v
 ```
+
+### Complete Workflow Example
+
+1. **Check your hyperloop emails** for new analysis results
+2. **Add entries to downloadlist.txt**:
+   ```
+   CF_JetShape_NeNe_default_with_outliers LHC25af_pass1 /alice/cern.ch/user/a/alihyperloop/outputs/0049/494220/145539
+   CF_JetShape_NeNe_xxx LHC25af_pass1 /alice/cern.ch/user/a/alihyperloop/outputs/0049/493316/145211
+   ```
+3. **Run the download**:
+   ```bash
+   # For local storage
+   python3 download_from_list.py -v
+   
+   # For EOS/CERNBox sync
+   python3 download_from_list.py -d /eos/user/your_username/analysis_data -v
+   ```
+4. **Files are automatically organized** with descriptive names like:
+   - `AnalysisResults_CF_JetShape_NeNe_default_with_outliers_LHC25af_pass1_494220_145539.root`
+   - `AnalysisResults_CF_JetShape_NeNe_xxx_LHC25af_pass1_493316_145211.root`
 
 ## Smart Download Behavior
 
