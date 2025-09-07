@@ -1,0 +1,2 @@
+CF_JetShape_NeNe_default_with_outliers LHC25af_pass1 /alice/cern.ch/user/a/alihyperloop/outputs/0049/494220/145539 
+CF_JetShape_NeNe_xxx LHC25af_pass1  /alice/cern.ch/user/a/alihyperloop/outputs/0049/493316/145211
