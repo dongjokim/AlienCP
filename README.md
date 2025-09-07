@@ -1,271 +1,103 @@
-# AlienCP - Smart File Download Scripts
+# AlienCP - ALICE File Download Scripts
 
-Python scripts to download files from ALICE's Alien file system using the `alien_cp` command with intelligent duplicate detection and size comparison.
+Simple Python scripts to download files from ALICE's Alien file system.
 
-## Scripts Overview
+## What You Need
 
-- **`download_file.py`**: Download individual files from Alien
-- **`download_from_list.py`**: Batch download AnalysisResults.root files from a downloadlist.txt file
+1. **ALICE software** installed and sourced
+2. **alien_cp command** available
+3. **Valid credentials** (run `alien-token-init`)
 
-## Prerequisites
+## Quick Start
 
-Before using this script, ensure you have:
+### For Batch Downloads (Most Common)
 
-1. **ALICE software environment** properly installed
-2. **alien_cp command** available in your PATH
-3. **Valid ALICE credentials** configured (usually done via `alien-token-init`)
-
-## Installation
-
-1. Clone or download this repository
-2. Make the scripts executable:
-   ```bash
-   chmod +x download_file.py
-   chmod +x download_from_list.py
-   ```
-
-## Features
-
-### Both Scripts Include:
-- **Smart duplicate detection**: Automatically checks if a file already exists locally
-- **Size comparison**: Compares local and Alien file sizes to avoid unnecessary re-downloads
-- **Download directory specification**: Organize downloads in a specific directory
-- **Force download option**: Override duplicate detection when needed
-- **Verbose output**: Detailed information about download process and file sizes
-
-### download_from_list.py Additional Features:
-- **Batch processing**: Download multiple files from a downloadlist.txt file
-- **Custom filename generation**: Creates descriptive filenames based on directory paths
-- **Progress tracking**: Shows progress for multiple downloads
-- **Full command display**: Shows the exact alien_cp commands being executed
-
-## Usage
-
-## download_file.py - Individual File Downloads
-
-### Basic Usage
-
-Download a file to the current directory:
-
-```bash
-python download_file.py alien:///alice/data/2022/LHC22c/000123456/raw/run123456_0001.root
-```
-
-### Download to Specific Directory
-
-Download to a specific directory:
-
-```bash
-python download_file.py alien:///alice/data/2022/LHC22c/000123456/raw/run123456_0001.root -d ./data
-```
-
-### Advanced Usage
-
-Download with custom filename in specific directory:
-
-```bash
-python download_file.py alien:///alice/data/2022/LHC22c/000123456/raw/run123456_0001.root -d ./data -o my_data.root
-```
-
-Force re-download even if file exists:
-
-```bash
-python download_file.py alien:///alice/data/2022/LHC22c/000123456/raw/run123456_0001.root -d ./data --force
-```
-
-Enable verbose output:
-
-```bash
-python download_file.py alien:///alice/data/2022/LHC22c/000123456/raw/run123456_0001.root -d ./data -v
-```
-
-### Command Line Options for download_file.py
-
-- `alien_path`: Path to the file in Alien (required)
-- `-d, --download-dir`: Directory to download files to (optional, defaults to current directory)
-- `-o, --output`: Local filename to save the file (optional, defaults to filename from alien_path)
-- `-v, --verbose`: Enable verbose output (optional)
-- `--force`: Force download even if file already exists (optional)
-
-## download_from_list.py - Batch Downloads
-
-### Quick Start
-
-**Default usage (downloads to hyperloopOutputs/):**
-```bash
-python3 download_from_list.py -v
-```
-
-**Custom directory (e.g., your EOS directory for CERNBox sync):**
-```bash
-python3 download_from_list.py -d /eos/user/your_username/analysis_data -v
-```
-
-### Setup
-
-Create a `downloadlist.txt` file with entries in the format:
-```
-first_argument second_argument /alice/path/to/directory
-```
-
-Example:
-```
-CF_JetShape_NeNe_default_with_outliers LHC25af_pass1 /alice/cern.ch/user/a/alihyperloop/outputs/0049/494220/145539
-CF_JetShape_NeNe_xxx LHC25af_pass1 /alice/cern.ch/user/a/alihyperloop/outputs/0049/493316/145211
-```
-
-### Workflow
-
-1. **Add new entries** to `downloadlist.txt` from your hyperloop emails
-2. **Run the script** with your preferred directory:
-   - **Default**: `python3 download_from_list.py -v` (downloads to hyperloopOutputs/)
-   - **EOS/CERNBox**: `python3 download_from_list.py -d /eos/user/your_username/analysis_data -v`
-3. **Files sync automatically** to CERNBox if using EOS directory
-
-### Download to Custom Directory
-
-```bash
-python download_from_list.py -d ./my_downloads
-```
-
-### Verbose Output
-
-```bash
-python download_from_list.py -v
-```
-
-### Custom Downloadlist File
-
-```bash
-python download_from_list.py -f my_custom_list.txt -d ./downloads -v
-```
-
-### Command Line Options for download_from_list.py
-
-- `-f, --file`: Path to the downloadlist file (default: downloadlist.txt)
-- `-d, --download-dir`: Directory to download files to (default: hyperloopOutputs)
-- `-v, --verbose`: Enable verbose output (optional)
-
-### Filename Generation
-
-The script automatically generates descriptive filenames in the format:
-```
-AnalysisResults_[first_arg]_[second_arg]_[last_two_numbers_from_directory].root
-```
-
-Example output filenames:
-- `AnalysisResults_CF_JetShape_NeNe_default_with_outliers_LHC25af_pass1_494220_145539.root`
-- `AnalysisResults_CF_JetShape_NeNe_xxx_LHC25af_pass1_493316_145211.root`
-
-## Examples
-
-### download_file.py Examples
-
-```bash
-# Download a ROOT file to current directory
-python download_file.py alien:///alice/data/2022/LHC22c/000123456/raw/run123456_0001.root
-
-# Download to specific directory
-python download_file.py alien:///alice/data/2022/LHC22c/000123456/raw/run123456_0001.root -d ./data
-
-# Download with custom name in specific directory
-python download_file.py alien:///alice/data/2022/LHC22c/000123456/raw/run123456_0001.root -d ./data -o experiment_data.root
-
-# Download with verbose output to see size comparison
-python download_file.py alien:///alice/data/2022/LHC22c/000123456/raw/run123456_0001.root -d ./data -v
-
-# Force re-download even if file exists
-python download_file.py alien:///alice/data/2022/LHC22c/000123456/raw/run123456_0001.root -d ./data --force
-```
-
-### download_from_list.py Examples
-
-```bash
-# Download all files from downloadlist.txt to hyperloopOutputs directory
-python3 download_from_list.py -v
-
-# Download to your EOS directory (syncs to CERNBox automatically)
-python3 download_from_list.py -d /eos/user/your_username/analysis_data -v
-
-# Download to custom local directory
-python3 download_from_list.py -d ./my_analysis_data -v
-
-# Use custom downloadlist file
-python3 download_from_list.py -f my_experiments.txt -d ./results -v
-```
-
-### Complete Workflow Example
-
-1. **Check your hyperloop emails** for new analysis results
-2. **Add entries to downloadlist.txt**:
+1. **Add entries to `downloadlist.txt`**:
    ```
    CF_JetShape_NeNe_default_with_outliers LHC25af_pass1 /alice/cern.ch/user/a/alihyperloop/outputs/0049/494220/145539
    CF_JetShape_NeNe_xxx LHC25af_pass1 /alice/cern.ch/user/a/alihyperloop/outputs/0049/493316/145211
    ```
-3. **Run the download**:
+
+2. **Run the script**:
    ```bash
-   # For local storage
+   # Default: downloads to hyperloopOutputs/
    python3 download_from_list.py -v
    
-   # For EOS/CERNBox sync
+   # EOS directory: syncs to CERNBox automatically
    python3 download_from_list.py -d /eos/user/your_username/analysis_data -v
    ```
-4. **Files are automatically organized** with descriptive names like:
+
+3. **Files get organized** with descriptive names:
    - `AnalysisResults_CF_JetShape_NeNe_default_with_outliers_LHC25af_pass1_494220_145539.root`
    - `AnalysisResults_CF_JetShape_NeNe_xxx_LHC25af_pass1_493316_145211.root`
 
-## Smart Download Behavior
+### For Single File Downloads
 
-Both scripts intelligently handle file downloads:
+```bash
+python3 download_file.py alien:///alice/path/to/file.root -d ./downloads -v
+```
 
-1. **File exists with matching size**: Skips download and reports success
-2. **File exists with different size**: Re-downloads the file
-3. **File doesn't exist**: Downloads the file normally
-4. **Cannot determine Alien size**: Re-downloads to be safe
+## Commands
 
-### download_from_list.py Additional Behavior:
-- **Progress tracking**: Shows `[1/2]`, `[2/2]` etc. for multiple downloads
-- **Full command display**: Shows the exact `alien_cp` commands being executed
-- **Automatic directory creation**: Creates the output directory if it doesn't exist
-- **Batch processing**: Processes all entries in the downloadlist.txt file
+### download_from_list.py (Batch Downloads)
+```bash
+python3 download_from_list.py [options]
 
-## Error Handling
+Options:
+  -v, --verbose          Show detailed output and commands
+  -d, --download-dir     Directory to save files (default: hyperloopOutputs)
+  -f, --file            Custom downloadlist file (default: downloadlist.txt)
+```
 
-Both scripts include error handling for:
+### download_file.py (Single Files)
+```bash
+python3 download_file.py alien_path [options]
 
-- Missing `alien_cp` command
-- Invalid Alien paths (must start with `alien://`)
-- Download failures
-- File system errors
-- Size comparison failures
+Options:
+  -d, --download-dir     Directory to save file
+  -o, --output          Custom filename
+  -v, --verbose         Show detailed output
+  --force               Re-download even if file exists
+```
 
-### download_from_list.py Additional Error Handling:
-- Invalid downloadlist.txt format
-- Missing downloadlist.txt file
-- Empty or malformed entries in downloadlist.txt
-- Directory creation failures
+## How It Works
 
-## Notes
+- **Smart downloads**: Skips files that already exist with correct size
+- **Progress tracking**: Shows `[1/2]`, `[2/2]` for multiple downloads
+- **Command display**: Shows exact `alien_cp` commands being run
+- **Auto-organization**: Creates directories and descriptive filenames
 
-- Both scripts automatically create output directories if they don't exist
-- Exit codes: 0 for success, 1 for failure
-- Uses Python standard library only (no external dependencies required)
-- Compatible with Python 3.6+
-- `download_from_list.py` defaults to downloading to `hyperloopOutputs/` directory
-- Filenames are automatically generated based on directory paths for better organization
+## Common Issues
 
-## Troubleshooting
+| Problem | Solution |
+|---------|----------|
+| `alien_cp command not found` | Source ALICE software environment |
+| Authentication errors | Run `alien-token-init` |
+| `No valid entries found` | Check downloadlist.txt has 3 columns per line |
+| Permission denied | Verify you have access to the Alien file |
 
-If you encounter issues:
+## Examples
 
-1. **"alien_cp command not found"**: Ensure ALICE software is properly installed and sourced
-2. **Authentication errors**: Run `alien-token-init` to set up your credentials
-3. **Permission denied**: Check that you have access to the requested Alien file
-4. **File not found**: Verify the Alien path is correct and the file exists
+```bash
+# Basic batch download
+python3 download_from_list.py -v
 
-### download_from_list.py Specific Issues:
+# EOS/CERNBox sync
+python3 download_from_list.py -d /eos/user/your_username/data -v
 
-5. **"No valid entries found"**: Check your downloadlist.txt format - each line should have 3 columns
-6. **"File not found"**: Ensure downloadlist.txt exists in the current directory or specify with `-f`
-7. **"Less than 3 columns"**: Each line in downloadlist.txt must have: `first_arg second_arg /alice/path/to/directory`
-8. **Download failures**: Use `-v` flag to see the exact alien_cp commands being executed
+# Single file download
+python3 download_file.py alien:///alice/path/file.root -d ./data -v
+
+# Force re-download
+python3 download_file.py alien:///alice/path/file.root --force -v
+```
+
+## File Format
+
+**downloadlist.txt** format:
+```
+first_argument second_argument /alice/path/to/directory
+```
+
+Each line downloads `AnalysisResults.root` from the specified directory with a filename like:
+`AnalysisResults_[first]_[second]_[numbers].root`
