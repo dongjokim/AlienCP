@@ -1,0 +1,4 @@
+CF_JS_ppref_wagon1 LHC24ap_pass1_medium	/alice/cern.ch/user/a/alihyperloop/outputs/0049/493159/145052
+CF_JS_ppref_wagon2 LHC24ap_pass1_medium /alice/cern.ch/user/a/alihyperloop/outputs/0049/493160/145079
+CF_JS_ppref_wagon3 LHC24ap_pass1_medium /alice/cern.ch/user/a/alihyperloop/outputs/0049/493161/145060
+CF_JS_ppref_wagon4 LHC24ap_pass1_medium /alice/cern.ch/user/a/alihyperloop/outputs/0049/493162/145080
